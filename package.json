@@ -1,0 +1,23 @@
+{
+  "name": "renders_yoriel",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yoriel735/renders_yoriel.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yoriel735/renders_yoriel/issues"
+  },
+  "homepage": "https://github.com/yoriel735/renders_yoriel#readme",
+  "devDependencies": {
+    "jest": "^29.0.0"
+  }
+}

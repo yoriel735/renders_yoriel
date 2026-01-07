@@ -1,56 +1,68 @@
-renders_yoriel
-CI/CD (Hito 4)
+Renders_Yoriel – CI/CD (Hito 4)
 
-Este repo tiene un pipeline básico que cubre: tests en Push/PR, deploy automático desde main si los tests pasan, y rollback manual en Render.
+1. Descripción del Repo
 
-Qué hace el workflow
+Este repositorio contiene un pipeline básico que cubre:
 
-Cuando haces un Push o PR a main, se ejecutan los tests (usando GitHub Actions).
+Ejecución de tests en Push/PR.
 
-Si los tests pasan, el job de deploy hace un POST al Render Deploy Hook (que debes agregar como secreto RENDER_DEPLOY_HOOK) para hacer el deploy en Render.
+Deploy automático desde main si los tests pasan.
 
-Cómo configurarlo (rápido)
+Rollback manual en Render en caso de fallos en producción.
+
+2. Funcionamiento del Workflow
+
+Cada vez que se hace un Push o PR a main, se ejecutan los tests usando GitHub Actions.
+
+Si los tests pasan, el job de deploy realiza un POST al Render Deploy Hook (debes agregarlo como secreto RENDER_DEPLOY_HOOK) para desplegar en Render automáticamente.
+
+3. Configuración Rápida
 
 En Render → tu Service → Deploy Hooks, crea un Deploy Hook y copia la URL.
 
-En GitHub → repo → Settings → Secrets & variables → Actions, añade un nuevo secreto con la URL copiada: RENDER_DEPLOY_HOOK.
+En GitHub → Repo → Settings → Secrets & Variables → Actions, añade un nuevo secreto con la URL copiada: RENDER_DEPLOY_HOOK.
 
-En Render → Settings → Environment, añade NODE_ENV=production (y si quieres, FAIL_HITO3=1 para simular un error en runtime).
+En Render → Settings → Environment, añade:
 
-Cómo probar el flujo (paso a paso)
+NODE_ENV=production
 
-En local: corre npm test, debería pasar.
+Opcional: FAIL_HITO3=1 (para simular un error en runtime)
 
-Haz un commit con un cambio que provoque el fallo en producción (por ejemplo, un error que solo se active cuando process.env.FAIL_HITO3 === '1').
+4. Cómo Probar el Flujo
 
-Haz Push a main: GitHub Actions ejecutará los tests, y si pasan, el job de deploy hará un POST al hook.
+En local: ejecutar npm test (debe pasar).
 
-En Render → Activity / Deploys, monitoriza el deploy. Revisa los logs de Build, Deploy y Runtime.
+Crear un commit con un cambio que provoque fallo en producción (por ejemplo, un error activo cuando process.env.FAIL_HITO3 === '1').
 
-Si el deploy falla en runtime, ve a Activity, selecciona el deploy anterior que salió bien y haz un Rollback o Manual Deploy para restaurarlo (toma capturas).
+Hacer Push a main → GitHub Actions ejecutará los tests y, si pasan, el deploy hará POST al hook.
 
-Evidencia / Checklist para entregar
+En Render → Activity / Deploys, monitorizar el deploy. Revisar los logs de Build, Deploy y Runtime.
 
-Captura de la ejecución del workflow (cuando los tests pasan).
+Si el deploy falla en runtime:
 
-Capturas de los logs de Render (Build, Deploy, Runtime).
+Ir a Activity
 
-Captura del botón de rollback y del rollback que hiciste.
+Seleccionar el deploy anterior que salió bien
 
-SHA del commit que se desplegó y verificación de que la versión en Render es la misma que ese commit.
+Hacer Rollback o Manual Deploy para restaurarlo (tomar capturas).
 
-README con la configuración y pasos (como en esta sección).
+5. Evidencia / Checklist para Entregar
 
-Plantilla rápida para el informe de incidente
+Captura de la ejecución del workflow (tests pasados).
 
-Título: Rollback test - commit 3e8b391
+Capturas de logs de Render (Build, Deploy, Runtime).
 
-Fecha/Hora: (pon el timestamp)
+Captura del botón de rollback y del rollback realizado.
 
-Causa: Error controlado en runtime (variable FAIL_HITO3)
+SHA del commit desplegado y verificación de versión en Render.
 
-Diagnóstico: Los tests pasaron; el deploy llegó a runtime y falló; los logs muestran Error: Fallo intencionado Hito 3.
+README con configuración y pasos.
 
-Acción tomada: Hice un rollback al commit <SHA_OK> desde Activity → Deploys.
+6. Plantilla de Informe de Incidente
 
-Resultado: El servicio se recuperó; tiempo de recuperación: X min. Adjuntar capturas y fragmentos de log.
+Título: Rollback test – commit 3e8b391
+Fecha/Hora: (poner timestamp)
+Causa: Error controlado en runtime (FAIL_HITO3)
+Diagnóstico: Tests pasaron; deploy llegó a runtime y falló; logs muestran Error: Fallo intencionado Hito 3.
+Acción tomada: Rollback al commit <SHA_OK> desde Activity → Deploys.
+Resultado: Servicio recuperado; tiempo de recuperación: X min. Adjuntar capturas y logs.

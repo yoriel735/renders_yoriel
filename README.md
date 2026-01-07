@@ -1,6 +1,6 @@
 # renders_yoriel
 
-## CI/CD (Hito 4) ✅
+## CI/CD (Hito 4)
 Este repo implementa un pipeline básico que cubre: tests en Push/PR, deploy automático desde `main` si los tests pasan, y rollback manual en Render.
 
 ### Qué hace el workflow

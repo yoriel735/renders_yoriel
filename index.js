@@ -1,3 +1,9 @@
+function resta(a, b) {
+  return a - b;
+}
+
+module.exports = { resta };
+
 // sólo en producción para no romper los tests locales
 if (process.env.NODE_ENV === 'production') {
   setTimeout(() => {
